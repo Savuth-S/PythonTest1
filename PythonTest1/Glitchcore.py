@@ -1,7 +1,9 @@
+##Librerias
 from PIL import Image
 import numpy as np
 from random import *
 
+#Atributos
 class Glitch1(object):
     """Generates glitch like image from imput"""
 
@@ -28,14 +30,14 @@ class Glitch1(object):
 
     def generate(route):
         total = 0
-        for infile in route:
+        for file in route:
             total += 1
     
         fileindex = 0
-        for infile in route:
+        for file in route:
             fileindex += 1
-            print(infile)
-            image1 = Image.open(infile)
+            print(file)
+            image1 = Image.open(file)
             image1 = image1.convert('RGBA')
     
             image2 = Image.eval(image1, lambda a: Glitch1.gemify(a))
