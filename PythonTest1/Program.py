@@ -10,4 +10,4 @@ def invert(image):
 
 ##Codigo
 #Glitch1.generate(glob.glob('input/*.*')) 
-Name.generate(glob.glob('test/*.*'))
+Name.generate(glob.glob('input/*.*'))
