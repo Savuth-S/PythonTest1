@@ -10,13 +10,12 @@ class Duplicate(object):
             total += 1
 
         if not os.path.isfile("nameList.db"):
-            Duplicate.build(route)
+            Duplicate.build(route, 50)
 
         with open("nameList.db", "rb") as database:
             nameList = pickle.load(database)
 
         fileIndex = 0
-        duplicateDictionary = {}
         for file in route:
             fileIndex += 1
             print(file)
@@ -34,35 +33,29 @@ class Duplicate(object):
                     name = name+str(hex(added).lstrip("0x").rstrip("L"))
 
                 for nameGroup in nameList:
-                    if name == nameGroup[0] and file.lstrip("input\ ") != nameGroup[1]:
-                        print("There's a copy of this image!")
+                    if name == nameGroup[0] and file != nameGroup[1]:
+                        print("There's a copy of this image!")  
                         print(str(nameGroup[0])+"\t"+str(nameGroup[1]))
-                        print(str(name)+"\t"+str(file.lstrip("input\ ")))
-
-                        tempIndex = 0
-                        for index in duplicateDictionary[name]:
-                            tempIndex = index
-                        tempIndex+=1
+                        print(str(name)+"\t"+str(file))
                         
-                        if os.path.isfile("input/"+str(nameGroup[1])):
-                            shutil.move("input/"+str(nameGroup[1]),"output/duplicates/"+str(duplicateDictionary[name][0])+'_'+str(nameGroup[1]))
+                        if os.path.isfile(str(nameGroup[1])):
+                            shutil.move(str(nameGroup[1]),"output/ " +str(nameGroup[1]).split(str("\ ").rstrip(" "))[-1])
                         if os.path.isfile(str(file)):
-                            shutil.move(str(file),'output/duplicates/'+str(tempIndex)+'_'+str(file.lstrip("input\ ")))
+                            shutil.move(str(file),'output/ '+str(file).split(str("\ ").rstrip(" "))[-1])
 
                         #input("\nPress enter to continue the script...\n\n")
-                    else:
-                        duplicateDictionary[name].append(fileIndex)
+                nameList.append((name, file))
                 #image2.save('output/thumbnails/'+str(name)+'.png')
                 image2.close()
                 image1.close()
             
                 print(str(fileIndex)+"/"+str(total)+"\n")
-                #input("\nPress enter to continue the script...\n\n")
+                #test("\nPress enter to continue the script...\n\n")
             else:
                 print("\n\nFile Skipped!\n\n")
         return print('\nDone!\n')
     
-    def build(route):
+    def build(route, maxFiles = 15):
         total = 0
         for file in route:
             total += 1
@@ -86,14 +79,12 @@ class Duplicate(object):
                     for item in group:
                         added += item
                     name = name+str(hex(added).lstrip("0x").rstrip("L"))
-
-                for nameGroup in nameList:
-                    if name == nameGroup[0]:
-                        None
-                    else:
-                        nameList.append((name, file.lstrip("input\ ")))
+                nameList.append((name, file.lstrip("input/ ")))
             print(str(fileIndex)+"/"+str(total))
+
+            if fileIndex > maxFiles:
+                break
 
         with open("nameList.db",'wb') as database:
             pickle.dump(nameList, database)
-        return print("\n\nDatabase build!\n\n")
+        return print("/n/nDatabase build!/n/n")

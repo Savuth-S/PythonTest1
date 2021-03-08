@@ -9,7 +9,7 @@ def invert(image):
     return image
 
 ##Codigo
-route = glob.glob("input/*.*")
-#Glitch1.generate(route) 
-Duplicate.build(route)
+route = glob.glob("input/gif/*.*")
+Glitch1.generate(route) 
+#Duplicate.build(route, 100)
 #Duplicate.check(route)
