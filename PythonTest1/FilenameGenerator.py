@@ -10,6 +10,7 @@ class Name(object):
             total += 1
 
         fileindex = 0
+        namelist = list()
         for file in route:
             fileindex += 1
             print(file)
@@ -24,15 +25,20 @@ class Name(object):
                     added += item
                 name = name+str(hex(added).lstrip("0x").rstrip("L"))
             
-            if os.path.isfile('output/'+str(name)+'.png'):
-                print("There's a copy of this image!")
+            for namegroup in namelist:
+                if name == namegroup[0]:
+                    print("There's a copy of this image!")
+                    print(str(namegroup[0])+"\t"+str(namegroup[1]))
+                    print(str(name)+"\t"+str(file.lstrip("input/")))
 
-                shutil.copyfile('output/'+str(name)+'.png','output/duplicate')
-                image1.save('output/duplicates/'+str(fileindex)+'-'+str(name)+'.png')
+                    image1.save('output/duplicates/'+str(fileindex)+'-'+str(name)+'.png')
+                    image1 = Image.open("input/"+str(namegroup[1]))
+                    image1.save('output/duplicates/'+str(fileindex-1)+'-'+str(name)+'.png')
 
-                input("\nPress enter to continue the script...\n\n")
-            else:
-                image1.save('output/'+str(name)+'.png')
+                    input("\nPress enter to continue the script...\n\n")
+            namelist.append((name, file.lstrip("input/")))
+
+            image2.save('output/thumbnails/'+str(name)+'.png')
             image2.close()
             image1.close()
             
