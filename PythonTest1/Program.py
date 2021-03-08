@@ -1,5 +1,6 @@
 ##Librerias
 from Glitchcore import *
+from FilenameGenerator import *
 import glob, os
 
 ##Funciones
@@ -8,8 +9,5 @@ def invert(image):
     return image
 
 ##Codigo
-Glitch1.generate(glob.glob('input/*.*'))
-    
-
-    
-    
+#Glitch1.generate(glob.glob('input/*.*')) 
+Name.generate(glob.glob('test/*.*'))
