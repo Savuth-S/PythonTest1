@@ -92,9 +92,8 @@ class Duplicate(object):
                         None
                     else:
                         nameList.append((name, file.lstrip("input\ ")))
+            print(str(fileIndex)+"/"+str(total))
 
         with open("nameList.db",'wb') as database:
             pickle.dump(nameList, database)
-        print(str(fileIndex)+"/"+str(total))
-
         return print("\n\nDatabase build!\n\n")

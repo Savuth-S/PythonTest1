@@ -23,7 +23,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FilenameGenerator.py">
+    <Compile Include="DuplicateChecker.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Glitchcore.py">
