@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>8747b4b3-c560-461f-8937-a5603a46864b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PythonTest1.py</StartupFile>
+    <StartupFile>Program.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,7 +23,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PythonTest1.py" />
+    <Compile Include="Glitchcore.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Program.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.9" />
