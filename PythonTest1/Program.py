@@ -1,6 +1,6 @@
 ##Librerias
 from Glitchcore import *
-from FilenameGenerator import *
+from DuplicateChecker import *
 import glob, os
 
 ##Funciones
@@ -9,5 +9,7 @@ def invert(image):
     return image
 
 ##Codigo
-#Glitch1.generate(glob.glob('input/*.*')) 
-Name.generate(glob.glob('input/*.*'))
+route = glob.glob("input/*.*")
+#Glitch1.generate(route) 
+Duplicate.build(route)
+#Duplicate.check(route)

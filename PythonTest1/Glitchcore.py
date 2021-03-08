@@ -50,7 +50,3 @@ class Glitch1(object):
             print(str(fileindex)+"/"+str(total)+"\n")
             image1.close()
         return print('\nDone!\n')
-
-    
-
-
