@@ -23,6 +23,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FilenameGenerator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Glitchcore.py">
       <SubType>Code</SubType>
     </Compile>
