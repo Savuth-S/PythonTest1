@@ -2,7 +2,7 @@
 from PIL import Image
 import numpy as np
 from random import *
-import Console.py
+import Console_Commands
 
 #Atributos
 class Glitch1(object):

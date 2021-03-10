@@ -1,6 +1,6 @@
 ##Librerias
-from Glitchcore import *
-from DupliChecker import *
+from Glitchcore_Generator import *
+from Duplicate_Checker import *
 import glob, os
 
 ##Funciones

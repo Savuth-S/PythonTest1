@@ -1,5 +1,5 @@
 from PIL import Image
-import shutil, os, pickle, Console.py
+import shutil, os, pickle, Console_Commands
 
 class Duplicate(object):
     """stuff stuff"""
