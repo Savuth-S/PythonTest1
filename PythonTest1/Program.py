@@ -1,15 +1,23 @@
 ##Librerias
 from Glitchcore import *
-from DuplicateChecker import *
+from DupliChecker import *
 import glob, os
 
 ##Funciones
-def invert(image):
-    image = Image.eval(image, lambda a: 255-a)
-    return image
+def checkDirectoryStructure():
+    if not os.path.isdir("input"):
+       os.mkdir("input")
+
+    if not os.path.isdir("output"):
+       os.mkdir("output")
+
+    if not os.path.isdir("output/thumbnails"):
+       os.mkdir("output/thumbnails")
+    return None
 
 ##Codigo
-route = glob.glob("input/gif/*.*")
-Glitch1.generate(route) 
-#Duplicate.build(route, 100)
-#Duplicate.check(route)
+checkDirectoryStructure()
+route = glob.glob("input/*.png")
+#Glitch1.generate(route) 
+Duplicate.build(route, len(route))
+Duplicate.check(route)
