@@ -1,5 +1,5 @@
 from PIL import Image
-import shutil, os, pickle
+import shutil, os, pickle, Console.py
 
 class Duplicate(object):
     """stuff stuff"""
@@ -23,15 +23,17 @@ class Duplicate(object):
 
                 for nameGroup in nameList:
                     if pixelmap == nameGroup[0] and file != nameGroup[1]:
-                        print("There's a copy of this image!")  
+                        print("There's a copy of this image!\n")
+                        print("Original")
                         print(str(nameGroup[0])+"\t"+str(nameGroup[1]))
-                        print(str(name)+"\t"+str(file))
+                        print("\nCopy")
+                        print(str(pixelmap)+"\t"+str(file))
                         
                         if os.path.isfile(str(nameGroup[1])):
                             shutil.move(str(nameGroup[1]),"output/ " +str(nameGroup[1]).split("\ ".rstrip(" "))[-1])
                         if os.path.isfile(str(file)):
                             shutil.move(str(file),'output/ '+str(file).split("\ ".rstrip(" "))[-1])
-                        input()
+                        #input()
 
                 if fileIndex < 15 or fileIndex > totalFiles-16:
                     Duplicate.saveThumbnail(image)
@@ -54,10 +56,11 @@ class Duplicate(object):
                 image = Image.open(file)
                 image = image.convert('RGBA')
 
-                pixelmap = generatePixelmap(image)
+                pixelmap = Duplicate.generatePixelmap(image)
 
                 nameList.append((str(pixelmap), str(file)))
-
+            
+            Console.clear()
             print(str(fileIndex)+"/"+str(totalFiles))
 
             if fileIndex > maxFiles:
