@@ -19,24 +19,25 @@ class Console(object):
             print()
     
     global g_start, g_end, g_count
-    g_start = g_end = g_anchor = g_end = g_count = 0
+    g_start = g_end = g_end = g_count = 0
     def ETA(start, end, total, progress, reset=False):
-        global g_start, g_end, g_count, g_anchor
+        global g_start, g_end, g_count
         if reset:
             g_start = 0
             g_end = 0
             g_count = 0
-            g_anchor = start
             return None
             
         g_start += start
-        g_end += end
-        g_count += 1.1
+        g_count += 1
         total = total-total*(progress/total)
         
+        if end > 0:
+            g_end += end
+        else: g_end += start+1
         
-        
-        h, m, s=(0,0,(((g_end-g_start)/g_count)*total))
+        h = m = 0
+        s = ( ( (g_end-g_start)/g_count )*total )
         
         if s > 60:  
             m = s//60
