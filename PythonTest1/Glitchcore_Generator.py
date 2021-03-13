@@ -2,7 +2,7 @@
 from PIL import Image
 from random import *
 from Console_Commands import *
-import os, numpy as np
+import os, time, numpy as np
 
 #Atributos
 class Glitch2(object):
@@ -11,14 +11,14 @@ class Glitch2(object):
         errors_list = list()
         total_files = len(route)
         file_index = start = end = errors = 0
-        Console.ETA(time.localtime(time.time())[5],0,0,0,True)
+        Console.ETA(0,0,0,0,True)
         
         for file in route:
             start = time.time()
             
             Console.clear()
             print("Current File: "+str(file.split("\ ".rstrip(' '))[-1]))
-            Console.progressBar(total_files, file_index, str(file_index)+'/'+str(total_files), Console.ETA(start, end, total_files, file_index), "\n")
+            Console.progressBar(total_files, file_index, str(file_index)+'/'+str(total_files), Console.ETA(start, end, total_files, file_index)+"\n")
             print("Errors found: "+str(errors))
             
             if os.path.isfile(file):
@@ -31,24 +31,28 @@ class Glitch2(object):
                     for frame in range(0,image1.n_frames):
                         image.seek(frame)
 
-                        artifacts = generateArtifacts(image)
+                        artifacts = Glitch2.generateArtifacts(image)
                         
-                        frames_sequence.append(image.convert("RGBA").alpha_composite(artifacts))
+                        image = image.convert("RGBA")
+                        frames_sequence.append(image.alpha_composite(artifacts))
                         artifacts.close()
                     
                     frames_sequence[0].save("output/"+str(file_index)+"-tmparrq352a.gif", 
                                             save_all=True, append_images=imageSequence[1:], loop=0, optimize=False)
-                    
                     frames_sequence.close()
-                    image.close()
                 else:
-                    artifacts = generateArtifacts(image)
-                    image = image.convert("RGBA").alpha_composite(artifacts)
+                    artifacts = Glitch2.generateArtifacts(image)
+                    
+                    image = image.convert("RGBA")
+                    image.alpha_composite(artifacts)
+                    artifacts.close()
                     
                     if str(file).split('.')[-1].lower() == "png":
                         image.save("output/"+str(file_index)+"-tmparrq352a.png")
                     else:
                         image.convert("RGB").save("output/"+str(file_index)+"-tmparrq352a."+str(file).split('.')[-1])
+                        
+                image.close()
             else:
                 print("\n\nERROR!: File Not Found!\n\n")
                 errors += 1
@@ -56,7 +60,10 @@ class Glitch2(object):
                 time.sleep(2)
             
             end = time.time()
-            Console.ETA(start, end, total_files, file_index)
+            Console.clear()
+            print("Current File: "+str(file.split("\ ".rstrip(' '))[-1]))
+            Console.progressBar(total_files, file_index, str(file_index)+'/'+str(total_files), Console.ETA(start, end, total_files, file_index)+"\n")
+            print("Errors found: "+str(errors))
         
         for groups in errors_list:
             print("\nThere was an error with this file!")
@@ -64,9 +71,9 @@ class Glitch2(object):
         
         return print("\nDone!\n")
 
-    def generateArtifacts(image, pixel = None):
+    def generateArtifacts(image = None, pixel = None):
         if pixel == None:
-            image = Image.eval(image.convert("RGB"), lambda pixel: generateArtifacts(pixel = pixel))
+            image = Image.eval(image.convert("RGB"), lambda pixel: Glitch2.generateArtifacts(pixel = pixel))
             image = Glitch2.mixAndCut(image, Image.eval(image, lambda pixel: 255-pixel))
             return image
         else:
@@ -86,7 +93,7 @@ class Glitch2(object):
         #Makes alpha mask
         a = Image.merge('RGB', (r, g, b))
         a = a.convert('L')
-        a = Image.eval(pixel, lambda pixel: 0 if pixel > 254 else a) #cleaning
+        a = Image.eval(a, lambda pixel: 0 if pixel > 254 else pixel) #cleaning
         
         artifact1 = Image.merge('RGBA', (r, g, b, a))
         
@@ -97,17 +104,16 @@ class Glitch2(object):
         #Makes alpha mask2
         a = Image.merge('RGB', (r, g, b))
         a = a.convert('L')
-        a = Image.eval(a, lambda value: 0 if value > 254 else value) #cleaning2
-        a = Image.eval(a, lambda value: value+38 if value > 20 else value)
-        a.paste(Image.new("L", image.size, 0), None, image2.split()[-1])
+        a = Image.eval(a, lambda pixel: 0 if pixel > 254 else pixel) #cleaning2
+        a = Image.eval(a, lambda pixel: pixel+38 if pixel > 20 else pixel)
+        a.paste(Image.new("L", artifact2.size, 0), None, artifact1.split()[-1])
 
-        r = g = Image.new("L", image.size,255)
-        b = Image.new("L", image.size, 0)
+        r = g = Image.new("L", artifact2.size,255)
+        b = Image.new("L", artifact2.size, 0)
         artifact2 = Image.merge('RGBA', (r, g, b, a))
         
         artifact1.alpha_composite(artifact2)
-        
-        artifact1.close()
         artifact2.close()
+        
         return artifact1
     
