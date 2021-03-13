@@ -13,13 +13,13 @@ class Glitch2(object):
         file_index = start = end = errors = 0
         Console.ETA(0,0,0,0,True)
         
+        Console.clear()
+        print("Current File: "+str(route[0]).split("\ ".rstrip(' '))[-1])
+        Console.progressBar(total_files, file_index, str(file_index)+'/'+str(total_files))
+        print("Errors found: "+str(errors))
+        
         for file in route:
             start = time.time()
-            
-            Console.clear()
-            print("Current File: "+str(file.split("\ ".rstrip(' '))[-1]))
-            Console.progressBar(total_files, file_index, str(file_index)+'/'+str(total_files), Console.ETA(start, end, total_files, file_index)+"\n")
-            print("Errors found: "+str(errors))
             
             if os.path.isfile(file):
                 image = Image.open(file)
@@ -61,7 +61,7 @@ class Glitch2(object):
             
             end = time.time()
             Console.clear()
-            print("Current File: "+str(file.split("\ ".rstrip(' '))[-1]))
+            print("Current File: "+str(file).split("\ ".rstrip(' '))[-1])
             Console.progressBar(total_files, file_index, str(file_index)+'/'+str(total_files), Console.ETA(start, end, total_files, file_index)+"\n")
             print("Errors found: "+str(errors))
         
