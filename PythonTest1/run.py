@@ -10,9 +10,6 @@ def checkDirectoryStructure():
 
     if not os.path.isdir("output"):
        os.mkdir("output")
-
-    if not os.path.isdir("output/thumbnails"):
-       os.mkdir("output/thumbnails")
     return None
 
 def clean(folder):
