@@ -28,18 +28,19 @@ class Glitch2(object):
                 if str(file).split('.')[-1].lower() == "gif":
                     frames_sequence = []
                     
-                    for frame in range(0,image1.n_frames):
+                    for frame in range(0,image.n_frames):
                         image.seek(frame)
+                        current_frame = image
 
-                        artifacts = Glitch2.generateArtifacts(image)
+                        artifacts = Glitch2.generateArtifacts(current_frame)
                         
-                        image = image.convert("RGBA")
-                        frames_sequence.append(image.alpha_composite(artifacts))
+                        current_frame = image.convert("RGBA")
+                        current_frame.alpha_composite(artifacts)
+                        frames_sequence.append(current_frame)
                         artifacts.close()
                     
                     frames_sequence[0].save("output/"+str(file_index)+"-tmparrq352a.gif", 
-                                            save_all=True, append_images=imageSequence[1:], loop=0, optimize=False)
-                    frames_sequence.close()
+                                            save_all=True, append_images=frames_sequence[1:], loop=0, optimize=False)
                 else:
                     artifacts = Glitch2.generateArtifacts(image)
                     
