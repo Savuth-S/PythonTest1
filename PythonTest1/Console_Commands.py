@@ -18,43 +18,31 @@ class Console(object):
         if progress == total:
             print()
     
-    global g_start, g_end, g_count
-    g_start = g_end = g_end = g_count = 0
-    def ETA(start, end, total, progress, reset=False):
-        global g_start, g_end, g_count
+    def ETA(start = 0, end = 0, show = False, total = 0, progress = 0, reset = False):
+        global e_time, g_start, gs_start
         if reset:
-            g_start = 0
-            g_end = 0
-            g_count = 0
+            e_time = 0
+            gs_start = start
             return None
-            
-        g_start += start
-        g_count += 1
-        total = total-total*(progress/total)
+        
+        if start > 0:
+            g_start = start
         
         if end > 0:
-            g_end += end
-        else: g_end += start+1
+            e_time += (end-start)
+            e_time *= ((end-gs_start)/e_time)
         
-        h = m = 0
-        s = ( ( (g_end-g_start)/g_count )*total )
-        
-        if s > 60:  
+        if show and progress != 0:
+            h = m = 0
+            s = (e_time*(total/progress))-e_time
+            #print(e_time)
+            #print(e_time * (total/progress))
+            #print(total/progress)
+            #print( e_time - (e_time * (total/progress) ) )
+            
             m = s//60
             s = s%60
-        if m > 60:
             h = m//60
             m = m%60
-        
-        if h < 1:
-            h = ""
-        else:
-            h = str(int(h))+"h "
-        if m < 1:
-            m = ""
-        else:
-            m = str(int(m))+"m "
-        
-        s = str(int(s))+"s"
-        return "ETA "+h+m+s
-
+            return "ETA "+str(int(h))+"h "+str(int(m))+"m "+str(int(s))+"s"
+        return None
