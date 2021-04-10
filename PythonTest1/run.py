@@ -1,7 +1,7 @@
 ##Librerias
 from Glitchcore_Generator import *
 from Duplicate_Checker import *
-import glob, os
+import glob, os, argparse
 
 ##Funciones
 def checkDirectoryStructure():
@@ -31,8 +31,17 @@ def clean(folder):
 
 ##Codigo
 checkDirectoryStructure()
-route = clean("input/*.*")
 
-Glitch2.glitch(route) 
-#Duplicate.build(route, len(route))
-#Duplicate.check(route)
+parser = argparse.ArgumentParser()
+parser.add_argument('-r', '--route', required=True, dest='route',
+                        help="theres no help")
+
+parsed_args = parser.parse_args()
+                        
+route = clean(str(parsed_args.route)+"/*.*")
+
+if len(route) > 0:
+    #Glitch2.glitch(route) 
+    #Duplicate.build(route, len(route))
+    Duplicate.check(route)
+    file_index = 0
